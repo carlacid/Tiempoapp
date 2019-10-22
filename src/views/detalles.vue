@@ -17,7 +17,6 @@
     },
     methods: {
       cargaCiudad (ciudadEncontrada) {
-        console.log('changed', ciudadEncontrada)
         this.iniciado = true
         this.ciudadActual = ciudadEncontrada
       }
