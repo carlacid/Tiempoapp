@@ -70,7 +70,8 @@ export default {
        this.ciudadMañana.icon = this.ciudades.list[9].weather[0].icon;
        this.ciudadMañana.fecha = this.ciudades.list[9].dt;
 
-        this.arrayCiudades.push(this.ciudadEncontrada,this.ciudadMañana);
+       this.borrarArray(this.arrayCiudades);
+       this.arrayCiudades.push(this.ciudadEncontrada,this.ciudadMañana);
      }).catch(()=> {
        this.ciudadEncontrada = {
          nombre: null,
@@ -85,6 +86,11 @@ export default {
           this.$emit('change', null)
         }
      })
+    },
+    borrarArray(array){
+      if(array.length!=0){
+        array.splice(0, array.length);
+      }
     }
   },
    watch: {

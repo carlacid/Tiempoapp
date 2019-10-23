@@ -2,7 +2,7 @@
   <div id="details" class="text-center">
     <buscador @change="cargaCiudad"></buscador>
     <div v-if="iniciado" >
-      <visor :ciudad="ciudadActual"></visor>
+      <visor :ciudades="ciudadActual"></visor>
     </div>
   </div>
 </template>
