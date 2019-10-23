@@ -25,7 +25,15 @@ export default {
          temp: null,
          estado: null,
          icon: null,
-         fecha: null}
+         fecha: null},
+    ciudadMañana: {
+         nombre: null,
+         temp: null,
+         estado: null,
+         icon: null,
+         fecha: null
+         },
+      arrayCiudades: []
     }
   },
   mounted (){
@@ -48,11 +56,21 @@ export default {
      '&units=metric&lang=es&APPID='+API_KEY)
      .then(response => {
        this.ciudades = response.data;
-       this.ciudadEncontrada.nombre = this.ciudades.name;
-       this.ciudadEncontrada.temp = this.ciudades.main.temp;
-       this.ciudadEncontrada.estado = this.ciudades.weather[0].description;
-       this.ciudadEncontrada.icon = this.ciudades.weather[0].icon;
-       this.ciudadEncontrada.fecha = this.ciudades.dt;
+       console.log(response.data);
+       console.log(this.ciudades.list[0].weather[0].description);
+       this.ciudadEncontrada.nombre = this.ciudades.city.name;
+       this.ciudadEncontrada.temp = this.ciudades.list[0].main.temp;
+       this.ciudadEncontrada.estado = this.ciudades.list[0].weather[0].description;
+       this.ciudadEncontrada.icon = this.ciudades.list[0].weather[0].icon;
+       this.ciudadEncontrada.fecha = this.ciudades.list[0].dt;
+
+       this.ciudadMañana.nombre = this.ciudades.city.name;
+       this.ciudadMañana.temp = this.ciudades.list[9].main.temp;
+       this.ciudadMañana.estado = this.ciudades.list[9].weather[0].description;
+       this.ciudadMañana.icon = this.ciudades.list[9].weather[0].icon;
+       this.ciudadMañana.fecha = this.ciudades.list[9].dt;
+
+        this.arrayCiudades.push(this.ciudadEncontrada,this.ciudadMañana);
      }).catch(()=> {
        this.ciudadEncontrada = {
          nombre: null,
@@ -61,8 +79,8 @@ export default {
          icon: null}
      }).finally(() => {
         this.buscando = false
-        if (this.ciudadEncontrada.nombre) {
-          this.$emit('change', this.ciudadEncontrada)
+        if (this.arrayCiudades.length!=0) {
+          this.$emit('change', this.arrayCiudades)
         } else {
           this.$emit('change', null)
         }
