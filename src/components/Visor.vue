@@ -1,6 +1,6 @@
 <template>
-  <div v-if="ciudades" >
-    <b-card v-for="(ciudad, indice) in ciudades" :key="indice" no-body class="overflow-hidden" border-variant="secondary">
+  <div v-if="datosCiudad" >
+    <b-card v-for="(ciudad, indice) in datosCiudad" :key="indice" no-body class="overflow-hidden" border-variant="secondary">
       <b-row no-gutters>
         <b-col md="7">
           <b-card-body :title="`${ciudad.nombre}`" :sub-title="ciudad.fecha | hora">
@@ -30,7 +30,7 @@ export default {
       }
     },
     props: {
-        ciudades: Array
+        datosCiudad: Array
     },
     // Computed properties
     computed: {

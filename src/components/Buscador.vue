@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import {API_KEY, URL} from '../services/services';
+import {API_KEY, URL} from '@/services/services';
 import axios from 'axios';
 import _ from 'lodash';
 export default {
@@ -33,7 +33,7 @@ export default {
          icon: null,
          fecha: null
          },
-      arrayCiudades: []
+      detalles: []
     }
   },
   mounted (){
@@ -70,8 +70,8 @@ export default {
        this.ciudadMañana.icon = this.ciudades.list[9].weather[0].icon;
        this.ciudadMañana.fecha = this.ciudades.list[9].dt;
 
-       this.borrarArray(this.arrayCiudades);
-       this.arrayCiudades.push(this.ciudadEncontrada,this.ciudadMañana);
+       this.borrarArray(this.detalles);
+       this.detalles.push(this.ciudadEncontrada,this.ciudadMañana);
      }).catch(()=> {
        this.ciudadEncontrada = {
          nombre: null,
@@ -80,8 +80,8 @@ export default {
          icon: null}
      }).finally(() => {
         this.buscando = false
-        if (this.arrayCiudades.length!=0) {
-          this.$emit('change', this.arrayCiudades)
+        if (this.detalles.length!=0) {
+          this.$emit('change', this.detalles)
         } else {
           this.$emit('change', null)
         }
