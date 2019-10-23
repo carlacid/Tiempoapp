@@ -3,6 +3,8 @@
     <buscador @change="cargaDatos"></buscador>
     <div v-if="iniciado" >
       <visor :datosCiudad="datosActuales"></visor>
+      <button class="mt-2 btn btn-lg btn-outline-dark" @click="ocultar()">Mostrar más</button>
+      <tabla v-show="oculto" :datosCiudad="datosActuales"></tabla>
     </div>
   </div>
 </template>
@@ -11,6 +13,7 @@
  export default{
     data () {
       return {
+        oculto: false,
         datosActuales: null,
         iniciado: false
       }
@@ -19,6 +22,9 @@
       cargaDatos (detallesBuscador) {
         this.iniciado = true
         this.datosActuales = detallesBuscador
+      },
+      ocultar (){
+        this.oculto = !this.oculto;
       }
     }
 }

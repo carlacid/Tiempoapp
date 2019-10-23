@@ -3,7 +3,7 @@
     <b-card v-for="(ciudad, indice) in datosCiudad" :key="indice" no-body class="overflow-hidden" border-variant="secondary">
       <b-row no-gutters>
         <b-col md="7">
-          <b-card-body :title="`${ciudad.nombre}`" :sub-title="ciudad.fecha | hora">
+          <b-card-body :title="`${ciudad.nombre}`" :sub-title="ciudad.fecha">
             <b-card-text>
               <span>{{ciudad.estado | capitalize}}</span>
               <img :src="`http://openweathermap.org/img/wn/${ ciudad.icon }.png`" alt="Estado" >

@@ -20,19 +20,6 @@ export default {
       param: null,
       ciudades: null,
       buscando: false,
-      ciudadEncontrada: {
-         nombre: null,
-         temp: null,
-         estado: null,
-         icon: null,
-         fecha: null},
-    ciudadMañana: {
-         nombre: null,
-         temp: null,
-         estado: null,
-         icon: null,
-         fecha: null
-         },
       detalles: []
     }
   },
@@ -49,30 +36,57 @@ export default {
     throttledMethod: _.debounce(function() {
       this.changeUrl();
     }, 1000),
+    crearObjeto(nombre, temp, estado, icon, fecha, hora) {
+      const ciudad = {
+         nombre: nombre,
+         temp: temp,
+         estado: estado,
+         icon: icon,
+         fecha: fecha,
+         hora: hora,
+      };
+
+      this.detalles.push(ciudad);
+      console.log(">>>>>", ciudad)
+    },
+    borrarArray(array){
+      if(array.length!=0){
+        array.splice(0, array.length);
+      }
+    },
     search: function(ubicacion) {
       this.buscando = true
       axios
      .get(URL+ubicacion+
      '&units=metric&lang=es&APPID='+API_KEY)
      .then(response => {
-       this.ciudades = response.data;
-       console.log(response.data);
-       console.log(this.ciudades.list[0].weather[0].description);
-       this.ciudadEncontrada.nombre = this.ciudades.city.name;
-       this.ciudadEncontrada.temp = this.ciudades.list[0].main.temp;
-       this.ciudadEncontrada.estado = this.ciudades.list[0].weather[0].description;
-       this.ciudadEncontrada.icon = this.ciudades.list[0].weather[0].icon;
-       this.ciudadEncontrada.fecha = this.ciudades.list[0].dt;
+        this.ciudades = response.data;
+        console.log(response)
 
-       this.ciudadMañana.nombre = this.ciudades.city.name;
-       this.ciudadMañana.temp = this.ciudades.list[9].main.temp;
-       this.ciudadMañana.estado = this.ciudades.list[9].weather[0].description;
-       this.ciudadMañana.icon = this.ciudades.list[9].weather[0].icon;
-       this.ciudadMañana.fecha = this.ciudades.list[9].dt;
+        this.detalles = this.ciudades.list.map((item) => {
+          return {
+            nombre: this.ciudades.city.name,
+            temp: item.main.temp,
+            estado: item.weather[0].description,
+            icon: item.weather[0].icon,
+            fecha: item.dt_txt
+          }
+        });
 
-       this.borrarArray(this.detalles);
-       this.detalles.push(this.ciudadEncontrada,this.ciudadMañana);
-     }).catch(()=> {
+        // console.log(data);
+
+        // const data = {
+        //   nombre: this.ciudades.city.name,
+        //   temp: this.ciudades.list[0].main.temp,
+        //   estado: this.ciudades.list[0].weather[0].description,
+        //   icon: this.ciudades.list[0].weather[0].icon,
+        //   fecha: this.ciudades.list[0].dt_txt
+        // }
+        console.log("dfsdfsd")
+
+        // this.detalles.push(data)
+        console.log(this.detalles)
+      }).catch(()=> {
        this.ciudadEncontrada = {
          nombre: null,
          temp: null,
@@ -86,11 +100,6 @@ export default {
           this.$emit('change', null)
         }
      })
-    },
-    borrarArray(array){
-      if(array.length!=0){
-        array.splice(0, array.length);
-      }
     }
   },
    watch: {
