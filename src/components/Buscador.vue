@@ -1,6 +1,6 @@
 <template>
   <b-form @submit.stop.prevent="changeUrl()">
-    <b-form-group id="input-group-1" label="Ubicación: " label-for="input-1">
+    <b-form-group class="col-md-6 col-12 mx-auto" id="input-group-1" label="Ubicación: " label-for="input-1">
       <div class="d-flex justify-content-center">
         <b-form-input @input="throttledMethod()" @keyup.enter="changeUrl()" v-model="param"  id="input-1" required placeholder="Ubicación"></b-form-input>
       </div>
@@ -20,19 +20,6 @@ export default {
       param: null,
       ciudades: null,
       buscando: false,
-      ciudadEncontrada: {
-         nombre: null,
-         temp: null,
-         estado: null,
-         icon: null,
-         fecha: null},
-    ciudadMañana: {
-         nombre: null,
-         temp: null,
-         estado: null,
-         icon: null,
-         fecha: null
-         },
       detalles: []
     }
   },
@@ -55,42 +42,33 @@ export default {
      .get(URL+ubicacion+
      '&units=metric&lang=es&APPID='+API_KEY)
      .then(response => {
-       this.ciudades = response.data;
-       console.log(response.data);
-       console.log(this.ciudades.list[0].weather[0].description);
-       this.ciudadEncontrada.nombre = this.ciudades.city.name;
-       this.ciudadEncontrada.temp = this.ciudades.list[0].main.temp;
-       this.ciudadEncontrada.estado = this.ciudades.list[0].weather[0].description;
-       this.ciudadEncontrada.icon = this.ciudades.list[0].weather[0].icon;
-       this.ciudadEncontrada.fecha = this.ciudades.list[0].dt;
+        this.ciudades = response.data;
+        console.log(response)
+        this.detalles = this.ciudades.list.map((item) => {
+          return {
+            nombre: this.ciudades.city.name,
+            temp: item.main.temp,
+            temp_max: item.main.temp_max,
+            temp_min: item.main.temp_min,
+            humedad: item.main.humidity,
+            viento: item.wind.speed,
+            estado: item.weather[0].description,
+            icon: item.weather[0].icon,
+            fecha: item.dt_txt
+          }
+        });
+      }).catch(()=> {
 
-       this.ciudadMañana.nombre = this.ciudades.city.name;
-       this.ciudadMañana.temp = this.ciudades.list[9].main.temp;
-       this.ciudadMañana.estado = this.ciudades.list[9].weather[0].description;
-       this.ciudadMañana.icon = this.ciudades.list[9].weather[0].icon;
-       this.ciudadMañana.fecha = this.ciudades.list[9].dt;
-
-       this.borrarArray(this.detalles);
-       this.detalles.push(this.ciudadEncontrada,this.ciudadMañana);
-     }).catch(()=> {
-       this.ciudadEncontrada = {
-         nombre: null,
-         temp: null,
-         estado: null,
-         icon: null}
      }).finally(() => {
         this.buscando = false
-        if (this.detalles.length!=0) {
+        if (this.detalles!=0) {
           this.$emit('change', this.detalles)
+          // borramos el array detalles una vez pasamos los datos
+          this.detalles=[]
         } else {
           this.$emit('change', null)
         }
      })
-    },
-    borrarArray(array){
-      if(array.length!=0){
-        array.splice(0, array.length);
-      }
     }
   },
    watch: {
