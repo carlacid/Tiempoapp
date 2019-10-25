@@ -28,7 +28,7 @@ export default {
     this.throttledMethod();
   },
   methods: {
-    cargaDatos (detallesBuscador) {        
+    cargaDatos (detallesBuscador) {
       this.iniciado = true
       this.datosActuales = detallesBuscador
       this.dias=[]

@@ -65,7 +65,6 @@ export default {
       this.slide=0;
     },
   },
- 
   // Filtro para poner en mayusculas un string
   filters: {
     capitalize: function(value) {

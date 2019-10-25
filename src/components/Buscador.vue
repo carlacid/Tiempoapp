@@ -36,6 +36,24 @@ export default {
     throttledMethod: _.debounce(function() {
       this.changeUrl();
     }, 1000),
+    crearObjeto(nombre, temp, estado, icon, fecha, hora) {
+      const ciudad = {
+         nombre: nombre,
+         temp: temp,
+         estado: estado,
+         icon: icon,
+         fecha: fecha,
+         hora: hora,
+      };
+
+      this.detalles.push(ciudad);
+      console.log(">>>>>", ciudad)
+    },
+    borrarArray(array){
+      if(array.length!=0){
+        array.splice(0, array.length);
+      }
+    },
     search: function(ubicacion) {
       this.buscando = true
       axios
