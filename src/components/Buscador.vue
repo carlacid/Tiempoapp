@@ -1,6 +1,6 @@
 <template>
   <b-form @submit.stop.prevent="search(this.param)">
-    <b-form-group class="col-md-6 col-12 mx-auto" id="input-group-1" label="Ubicación: " label-for="input-1">
+    <b-form-group class="col-md-8 col-12 mx-auto" id="input-group-1" label="Ubicación: " label-for="input-1">
       <div class="d-flex justify-content-center">
         <b-form-input @input="throttledMethod()" @keyup.enter="search(this.param)" v-model="param"  id="input-1" required placeholder="Ubicación"></b-form-input>
       </div>
