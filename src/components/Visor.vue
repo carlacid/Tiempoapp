@@ -38,21 +38,37 @@
 <script>
 export default {
    props: {
-    datosCiudad: Array
+    datosCiudad: Array,
+    fecha: String
   },
   data() {
     return {
-      fecha: null,
+      dia: null,
       slide: 0
     };
   },
-  methods:{
-    isFirstElement () {
-      if(this.slide==0){
-        return true
-      }else{
-        return false
+
+  beforeMount (){
+    if(this.fecha){
+      this.dia = this.fecha;
+      let slides = {
+        'hoy': 0,
+        'mañana': 1,
+        'pasado': 2,
       }
+      if (slides[this.dia]) {
+        this.slide = slides[this.dia]
+      }
+    }
+  },
+  methods:{
+    setDate(){
+      let days = ['hoy', 'mañana', 'pasado']
+      this.dia = days[this.slide]
+      this.$emit("update:fecha", this.dia)
+    },
+    isFirstElement () {
+      return this.slide==0
     },
     isLastElement () {
       if(this.slide!=2){
@@ -80,7 +96,11 @@ export default {
   watch: {
     datosCiudad: function(){
       this.init();
+    },
+    slide: function(){
+      this.setDate();
     }
+
   }
 };
 </script>
