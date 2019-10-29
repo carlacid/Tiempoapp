@@ -1,8 +1,8 @@
 <template>
-  <b-form @submit.stop.prevent="changeUrl()">
+  <b-form @submit.stop.prevent="search(this.param)">
     <b-form-group class="col-md-6 col-12 mx-auto" id="input-group-1" label="Ubicación: " label-for="input-1">
       <div class="d-flex justify-content-center">
-        <b-form-input @input="throttledMethod()" @keyup.enter="changeUrl()" v-model="param"  id="input-1" required placeholder="Ubicación"></b-form-input>
+        <b-form-input @input="throttledMethod()" @keyup.enter="search(this.param)" v-model="param"  id="input-1" required placeholder="Ubicación"></b-form-input>
       </div>
     </b-form-group>
     <p v-if="buscando">Buscando...</p>
@@ -15,6 +15,7 @@ import axios from 'axios';
 import _ from 'lodash';
 export default {
   name: "buscador",
+  props: ["ubicacion"],
   data () {
     return {
       param: null,
@@ -24,17 +25,16 @@ export default {
     }
   },
   mounted (){
-    if(this.$route.query.ubicacion){
-      this.search(this.$route.query.ubicacion);
+    if(this.ubicacion){
+      this.param = this.ubicacion;
+      this.search(this.param)
     }
-    this.throttledMethod();
   },
   methods: {
-    changeUrl(){
-      this.$router.push({ name: 'detalles', query: { ubicacion: this.param } }).catch(err => { });
-    },
     throttledMethod: _.debounce(function() {
-      this.changeUrl();
+      console.log(this.param)
+      this.$emit("update:ubicacion", this.param)
+      this.search(this.param);
     }, 1000),
     crearObjeto(nombre, temp, estado, icon, fecha, hora) {
       const ciudad = {
@@ -87,13 +87,6 @@ export default {
           this.$emit('change', null)
         }
      })
-    }
-  },
-   watch: {
-    $route(to, from) {
-      if(this.$route.query.ubicacion){
-        this.search(this.$route.query.ubicacion)
-      }
     }
   }
 };
