@@ -1,5 +1,5 @@
 <template>
-  <div v-if="datosCiudad!=0" class="col-md-6 col-12 mx-md-auto mx-auto">
+  <div v-if="datosCiudad!=0" class="col-md-9 col-12 mx-md-auto mx-auto my-auto">
     <div>
       <b-carousel
         id="carousel-1"
@@ -30,7 +30,7 @@
       </b-carousel>
     </div>
   </div>
-  <div v-else class="col-md-6 col-12 mx-md-auto mx-auto">
+  <div v-else class="col-md-8 col-12 mx-md-auto mx-auto">
     <p class="bg-danger text-white font-weight-bold rounded">No se encontró la ubicación</p>
   </div>
 </template>
