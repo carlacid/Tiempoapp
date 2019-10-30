@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import {API_KEY, URL} from '@/services/services';
+import {URL} from '@/services/services';
 import axios from 'axios';
 import _ from 'lodash';
 export default {
@@ -57,8 +57,7 @@ export default {
     search: function(ubicacion) {
       this.buscando = true
       axios
-     .get(URL+ubicacion+
-     '&units=metric&lang=es&APPID='+API_KEY)
+     .get(URL+'?city='+ubicacion)
      .then(response => {
         this.ciudades = response.data;
         console.log(response)
